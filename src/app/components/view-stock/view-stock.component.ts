@@ -51,6 +51,7 @@ export class ViewStockComponent {
     getStockData(): void {
       this.service.getStockData().subscribe( 
          (data: any[]) => {
+           console.log(data);
            this.stocks = data.filter(stock => stock.status == 'active' || stock.status == null || stock.status=="" || stock.status == "Available");  
          },
          (error: any) => {

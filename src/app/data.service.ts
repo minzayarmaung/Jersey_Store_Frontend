@@ -10,7 +10,7 @@
   })
   export class DataService {
 
-    private url = "http://localhost:8080/";
+    private url = "http://localhost:8080/storesystem/store/";
 
     constructor(private http: HttpClient) {
 
@@ -48,7 +48,7 @@
 
     // Getting Data from Stock Table
     getStockData(): Observable<any[]>{
-      return this.http.get<any[]>(this.url+'view_stocks')
+      return this.http.get<any[]>(this.url+'stock/view_stocks')
     }
 
     // Get Invoice Data By Id  - Reading 
