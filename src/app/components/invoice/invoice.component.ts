@@ -107,20 +107,22 @@ export class InvoiceComponent implements OnInit {
       profileImage : new FormControl('')
     });
 
-  ngOnInit(): void {
-    this.stockForm = this.fb.group({
-      items: this.fb.array([this.createItem()])
-    });
+    // Getting Available Stock Ids
+    ngOnInit(): void {
+      this.stockForm = this.fb.group({
+        items: this.fb.array([this.createItem()])
+      });
 
-    this.stockForm.valueChanges.subscribe(value => {
-      this.totalAmount = value.items.reduce((total: number, item: any) => total + (item.quantity * item.price));
-    });
+      this.stockForm.valueChanges.subscribe(value => {
+        this.totalAmount = value.items.reduce((total: number, item: any) => total + (item.quantity * item.price));
+      });
 
-    this.service.getAvailableStockIds().subscribe(ids => {
-      this.availableStockIds = ids;
-    })
+      this.service.getAvailableStockIds().subscribe((response: any) => {
+        console.log(response);
+        this.availableStockIds = response.stockResponse.map((stock: any) => stock.stockId);
+      });
+    }
 
-  }
 
   createItem(): FormGroup {
     return this.fb.group({
@@ -135,7 +137,7 @@ export class InvoiceComponent implements OnInit {
 
   // Populated Stock Info
   populateStockInfo(selectedValue: any, stock: any): void {
-    const selectedStock = this.stocks.find((s: any) => s.stock_id == selectedValue);
+    const selectedStock = this.stocks.find((s: any) => s.stockId == selectedValue);
     if (selectedStock && stock) {
       stock.name = selectedStock.name;
       stock.quantity = selectedStock.quantity;

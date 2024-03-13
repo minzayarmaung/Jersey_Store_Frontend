@@ -38,7 +38,7 @@
 
     // Invoice Soft Delete From Database 
     softDelete(id:number){
-      return this.http.put(`${this.url}table/softDelete/${id}`, null , { responseType: 'text'});
+      return this.http.put(`${this.url}invoice/softDelete/${id}`, null , { responseType: 'text'});
     }
 
     // Stock Soft Delete From Database
@@ -58,7 +58,7 @@
 
     // Get Stock Data By Id - Reading
     getStockDataById(id: number): Observable<StockData>{
-      return this.http.get<InvoiceData>(`${this.url}stock/${id}`)
+      return this.http.get<InvoiceData>(`${this.url}stock/details/${id}`)
     }
 
     // Updating Invoice Data from Result Table
@@ -73,22 +73,22 @@
 
     // Get StockId and Stock Amount By invoiceId LEFT JOIN - Reading
      getInvoiceWithStockDetails(): Observable<any[]>{
-      return this.http.get<any[]>(this.url+'invoice-with-stock-details')
+      return this.http.get<any[]>(this.url+'invoice/getInvoiceWithStockDetails')
     }
 
     // Getting Available Stocks
     getAvailableStockIds(): Observable<number[]>{
-      return this.http.get<number[]>(`${this.url}stocks/getStockIds`)
+      return this.http.get<number[]>(`${this.url}stock/getAvailableStockIds`)
     }
 
-    // Getting Available Invoic Ids
+    // Getting Available Invoice Ids
     getAvailableInvoiceIds(): Observable<number[]>{
-      return this.http.get<number[]>(`${this.url}invoice/getInvoiceIds`)
+      return this.http.get<number[]>(`${this.url}invoice/getAvailableInvoiceIds`)
     }
 
     // Saving Both Invoice and Stock Data
     addInvoiceAndStockData(data : FormData): Observable<any>{
-      return this.http.post<any>(`${this.url}saveInvoiceAndStockData`, data , { responseType: 'text' as 'json'})
+      return this.http.post<any>(`${this.url}invoiceAndStockData/save`, data , { responseType: 'text' as 'json'})
     }
 
     // Updating Both Invoice and Stock Data   
@@ -97,7 +97,7 @@
         invoice : invoice, 
         stocks : stocks
       };
-      return this.http.put<any>(`${this.url}updateInvoiceAndStock/${id}` , body , { responseType: 'text' as 'json'});
+      return this.http.put<any>(`${this.url}updateInvoiceAndStsock/${id}` , body , { responseType: 'text' as 'json'});
     }
 
     // Getting Invoice And Stock Data by Each ID PDF Export
@@ -107,7 +107,7 @@
 
     // Getting Invoice with Stock Details in PDF Export
     getInvoiceWithStockDetailsPDF(): Observable<Blob>{
-      return this.http.get(`${this.url}pdf/generatePDFInvoiceList` , { responseType : 'blob' });
+      return this.http.get(`${this.url}excel/exportFile` , { responseType : 'blob' });
     }
 
     // Getting Stock Data in PDF Export 

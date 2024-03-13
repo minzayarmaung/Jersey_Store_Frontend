@@ -60,30 +60,29 @@ export class ResultComponent implements OnInit {
 
   // Showing Only Unique Data With Unique Invoice ID . Not Duplicate
   ngOnInit(): void {
-    this.service.getInvoiceWithStockDetails().subscribe((data: any[][]) => {
-      // Make a new Variable to check
-      const uniqueInvoices = data.reduce((acc, curr) => {
-        if (!acc.find(item => item.invoiceId === curr[0])) {
-          acc.push({
-            id: curr[0],
-            invoiceId: curr[0],
-            cashierName: curr[1],
-            stockName: curr[8],
-            date: curr[2],
-            time: curr[3],
-            branch: curr[4],
-            center: curr[5],
-            status: curr[6],
-            stockId: curr[7],
-            amount: curr[9]
-          });
-        }
-        return acc;
-      }, []);
-      this.users = uniqueInvoices.filter(user => user.status !== 'inactive');
-      this.totalRows = this.users.length;
-    });  
+    this.service.getInvoiceWithStockDetails().subscribe((data: any) => {
+      console.log('Data received:', data);
+      const dataArray = data.invoiceAndStockDataResponse;
+      console.log('Is dataArray an array?', Array.isArray(dataArray));
+      console.log('Length of dataArray:', dataArray.length);
+  
+      if (Array.isArray(dataArray)) {
+        const uniqueInvoices = dataArray.reduce((acc: User[], curr: User) => {
+          if (!acc.find((item: User) => item.id)) {
+            acc.push(curr);
+          }
+          return acc;
+        }, []);
+        // Filter only 'active' records
+        console.log(this.users)
+        this.users = uniqueInvoices.filter((user: User) => user.status === 'active');
+        this.totalRows = this.users ? this.users.length : 0;
+      } else {
+        console.error('dataArray is not an array:', dataArray);
+      }
+    });
   }
+  
   
   
   // Excel Export Function Start
@@ -94,7 +93,7 @@ export class ResultComponent implements OnInit {
   // Export to Excel File
   exportExcel(){
 
-    this.http.get('http://localhost:8080/excel/exportData' , {responseType : 'blob'})
+    this.http.get('http://localhost:8080/storesystem/store/excel/exportFile' , {responseType : 'blob'})
     .subscribe((data:Blob) => {
       FileSaver.saveAs(data , 'ExportData.xlsx');
     });

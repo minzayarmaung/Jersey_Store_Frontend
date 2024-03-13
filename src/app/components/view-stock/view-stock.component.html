@@ -46,7 +46,7 @@
       <tbody>
         <tr *ngFor="let stock of stocks | stockFilter : filterChange | paginate : {itemsPerPage: itemsPerPage , currentPage: p }">
           <td class="text-end">{{ stock.stockId }}</td>
-          <td class="text-end">{{stock.invoice.invoiceId}}</td>
+          <td class="text-end">{{stock.invoiceId}}</td>
           <td class="text-end">{{ stock.name }}</td>
           <td class="text-end">{{ stock.quantity | number:'1.0-0' }}</td>
           <td class="text-end">{{ stock.price | number:'1.0-0'}}</td>
