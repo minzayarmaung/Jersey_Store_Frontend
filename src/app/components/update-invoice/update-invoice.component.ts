@@ -70,7 +70,7 @@ export class UpdateInvoiceComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
     this.service.getInvoiceDataById(id).subscribe((data: any) => { 
-      const invoiceData = data as ExtendInvoiceData; // Type assertion :3
+      const invoiceData = data as ExtendInvoiceData; 
       this.form.patchValue({
         cashierName: invoiceData.cashierName,
         branch: invoiceData.branch,
@@ -79,8 +79,8 @@ export class UpdateInvoiceComponent implements OnInit {
         center: invoiceData.center,
       });
   
-      if (invoiceData.stocks) { // Now accessing stocks from the asserted type
-        invoiceData.stocks.forEach((stock: ExtendedStockData) => { // Using ExtendedStockData for each stock
+      if (invoiceData.stocks) { 
+        invoiceData.stocks.forEach((stock: ExtendedStockData) => { 
           // To only Show data which are not Soft Deleted YET :3
           if(stock.status !== 'inactive'){
           const stockGroup = new FormGroup({

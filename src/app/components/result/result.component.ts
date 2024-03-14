@@ -68,13 +68,12 @@ export class ResultComponent implements OnInit {
   
       if (Array.isArray(dataArray)) {
         const uniqueInvoices = dataArray.reduce((acc: User[], curr: User) => {
-          if (!acc.find((item: User) => item.id)) {
+          if (!acc.find((item: User) => item.id )) {
             acc.push(curr);
           }
           return acc;
         }, []);
         // Filter only 'active' records
-        console.log(this.users)
         this.users = uniqueInvoices.filter((user: User) => user.status === 'active');
         this.totalRows = this.users ? this.users.length : 0;
       } else {
@@ -82,6 +81,7 @@ export class ResultComponent implements OnInit {
       }
     });
   }
+  
   
   
   

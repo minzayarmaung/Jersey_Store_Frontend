@@ -53,7 +53,7 @@
 
     // Get Invoice Data By Id  - Reading 
     getInvoiceDataById(id: number): Observable<InvoiceData>{
-      return this.http.get<InvoiceData>(`${this.url}invoice/${id}`)
+      return this.http.get<InvoiceData>(`${this.url}invoice/getInvoiceWithStockDataById/${id}`)
     } 
 
     // Get Stock Data By Id - Reading
@@ -88,7 +88,7 @@
 
     // Saving Both Invoice and Stock Data
     addInvoiceAndStockData(data : FormData): Observable<any>{
-      return this.http.post<any>(`${this.url}invoiceAndStockData/save`, data , { responseType: 'text' as 'json'})
+      return this.http.post<any>(`${this.url}invoiceAndStocks/saveInvoiceAndStockData`, data , { responseType: 'text' as 'json'})
     }
 
     // Updating Both Invoice and Stock Data   
@@ -117,7 +117,7 @@
 
     // Gettng Image Photo
     getImagePhoto(invoiceId: number): Observable<Blob>{
-      return this.http.get(`${this.url}images/${invoiceId}` , {responseType : 'blob'}) 
+      return this.http.get(`${this.url}images/image/${invoiceId}` , {responseType : 'blob'}) 
     }
     
     // Updating Image Photo 
