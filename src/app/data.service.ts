@@ -97,7 +97,7 @@
         invoice : invoice, 
         stocks : stocks
       };
-      return this.http.put<any>(`${this.url}updateInvoiceAndStsock/${id}` , body , { responseType: 'text' as 'json'});
+      return this.http.put<any>(`${this.url}invoiceAndStocks/updateInvoiceAndStockData/${id}` , body , { responseType: 'text' as 'json'});
     }
 
     // Getting Invoice And Stock Data by Each ID PDF Export
@@ -122,7 +122,7 @@
     
     // Updating Image Photo 
     updateImagePhoto(invoiceId: number , formData: FormData): Observable<any>{
-      return this.http.put(`${this.url}updateImage/${invoiceId}`, formData, { responseType : 'blob'})
+      return this.http.put(`${this.url}images/imageUpdate/${invoiceId}`, formData, { responseType : 'blob'})
     }
 
   } 
