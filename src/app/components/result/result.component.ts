@@ -62,29 +62,25 @@ export class ResultComponent implements OnInit {
   ngOnInit(): void {
     this.service.getInvoiceWithStockDetails().subscribe((data: any) => {
       console.log('Data received:', data);
-      const dataArray = data.invoiceAndStockDataResponse;
+      const dataArray = data; // Assuming 'data' is the array you logged
       console.log('Is dataArray an array?', Array.isArray(dataArray));
       console.log('Length of dataArray:', dataArray.length);
   
       if (Array.isArray(dataArray)) {
-        const uniqueInvoices = dataArray.reduce((acc: User[], curr: User) => {
-          if (!acc.find((item: User) => item.id )) {
+        this.users = dataArray.reduce((acc: any[], curr: any) => {
+          if (!acc.find((item: any) => item.invoiceId === curr.invoiceId)) {
             acc.push(curr);
           }
           return acc;
         }, []);
-        // Filter only 'active' records
-        this.users = uniqueInvoices.filter((user: User) => user.status === 'active');
-        this.totalRows = this.users ? this.users.length : 0;
+        // Assuming you want to do something with uniqueInvoices here
+        console.log('Unique Invoices:', this.users);
       } else {
         console.error('dataArray is not an array:', dataArray);
       }
     });
   }
-  
-  
-  
-  
+
   // Excel Export Function Start
 
   /* Default Name for Excel file when Download */

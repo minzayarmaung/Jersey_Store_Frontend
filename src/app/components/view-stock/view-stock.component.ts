@@ -48,22 +48,22 @@ export class ViewStockComponent {
 
     
     // Getting All Data from the Stock Database to the Stock Table
-getStockData(): void {
-  this.service.getStockData().subscribe( 
-     (data: any) => {
-       console.log(data);
-       const stockResponseArray = data.stockResponse; // Accessing stockResponse property
-       if (Array.isArray(stockResponseArray)) {
-         this.stocks = stockResponseArray.filter(stock => stock.status == 'active');  
-       } else {
-         console.error("Stock data is not in the expected format:", data);
-       }
-     },
-     (error: any) => {
-       console.error("Error Getting the Data From the Database : ", error);
-     }
-   );
-}
+    getStockData(): void {
+      this.service.getStockData().subscribe( 
+        (data: any) => {
+          console.log(data);
+          if (Array.isArray(data)) { // Assuming 'data' is directly the array
+            this.stocks = data.filter(stock => stock.status == 'active');  
+          } else {
+            console.error("Stock data is not in the expected format:", data);
+          }
+        },
+        (error: any) => {
+          console.error("Error Getting the Data From the Database : ", error);
+        }
+      );
+    }
+    
 
 
     // Generating PDF File 
