@@ -111,7 +111,7 @@ export class ResultComponent implements OnInit {
     let formData = new FormData();
     formData.append('file', file);
   
-    this.http.post('http://localhost:8080/excel/importData', formData)
+    this.http.post('http://localhost:8080/storesystem/store/import', formData)
     .subscribe(
       (Response) => {
         console.log("Excel Data Uploaded Successfully: ", Response);
