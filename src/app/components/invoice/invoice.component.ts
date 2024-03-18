@@ -119,7 +119,7 @@ export class InvoiceComponent implements OnInit {
 
       this.service.getAvailableStockIds().subscribe((response: any) => {
         console.log(response);
-        this.availableStockIds = response.stockResponse.map((stock: any) => stock.stockId);
+        this.availableStockIds = response.map((stock: any) => stock.stockId);
       });
     }
 
