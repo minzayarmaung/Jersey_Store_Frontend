@@ -70,7 +70,8 @@ export class UpdateInvoiceComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
     this.service.getInvoiceDataById(id).subscribe((data: any) => { 
-      const invoiceData = data as ExtendInvoiceData; 
+      const invoiceData = data as ExtendInvoiceData;
+      console.log(data); 
       this.form.patchValue({
         cashierName: invoiceData.cashierName,
         branch: invoiceData.branch,
@@ -82,13 +83,12 @@ export class UpdateInvoiceComponent implements OnInit {
       if (invoiceData.stocks) { 
         invoiceData.stocks.forEach((stock: ExtendedStockData) => { 
           // To only Show data which are not Soft Deleted YET :3
-          if(stock.status !== 'inactive'){
+          if(stock.status !=='inactive'){
           const stockGroup = new FormGroup({
             stockId : new FormControl(stock.stockId),
             name: new FormControl(stock.name, Validators.required),
             quantity: new FormControl(stock.quantity, Validators.required),
             price: new FormControl(stock.price, Validators.required),
-          
           });
           (this.form.get('stocks') as FormArray).push(stockGroup);
         }
@@ -159,7 +159,7 @@ export class UpdateInvoiceComponent implements OnInit {
 
   addRow(){
     const stockGroup = new FormGroup({
-      stockId : new FormControl(''),
+      stockId : new FormControl(-1),
       name : new FormControl('', Validators.required),
       quantity : new FormControl('', Validators.required),
       price : new FormControl('' , Validators.required)
