@@ -68,7 +68,7 @@ export class ResultComponent implements OnInit {
   
       if (Array.isArray(dataArray)) {
         this.users = dataArray.reduce((acc: any[], curr: any) => {
-          if (!acc.find((item: any) => item.invoiceId === curr.invoiceId)) {
+          if (!acc.find((item: any) => item.invoiceId === curr.invoiceId) && curr.status == 'active') {
             acc.push(curr);
           }
           return acc;
