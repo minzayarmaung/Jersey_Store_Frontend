@@ -18,5 +18,10 @@
     width: 100px;  /* Adjust as needed */
     height: 35px; /* Adjust as needed */
   }
+
+  .colored-column {
+    background-color: rgb(28, 230, 248); /* Change to the desired background color */
+  }
+  
   
   

@@ -4,4 +4,6 @@
 .custom-select {
     max-width: 100px; /* Adjust the width as needed */
   }
-  
+  .colored-column {
+    background-color:rgb(28, 230, 248); /* Change to the desired background color */
+  }
