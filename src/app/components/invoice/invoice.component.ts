@@ -63,7 +63,7 @@ export class InvoiceComponent implements OnInit {
      private fb: FormBuilder , private renderer : Renderer2 , private el : ElementRef ,private dialog: MatDialog,
      private cdr: ChangeDetectorRef , private zone: NgZone , private sanitizer: DomSanitizer) { }
 
-    imageSrc = "https://cdn3d.iconscout.com/3d/premium/thumb/upload-image-9298307-7628612.png";
+    imageSrc = "https://t3.ftcdn.net/jpg/04/28/36/88/360_F_428368831_UVan10UgxCCnYgJgFMNoV2xGy7pO8utS.jpg";
     imageSelected : boolean = false;
     showEdit: boolean = false;
 
