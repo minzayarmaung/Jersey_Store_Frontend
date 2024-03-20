@@ -6,3 +6,80 @@
   background-color: rgb(17, 172, 223) !important; /* Change "lightblue" to your desired color */
 }
 
+label {
+  width: 130px; 
+  height: 40px; 
+  position: relative;
+  display: block;
+  background: #ebebeb;
+  border-radius: 100px;
+  box-shadow: inset 0px 5px 15px rgba(0,0,0,0.4), inset 0px -5px 15px rgba(255,255,255,0.4);
+  cursor: pointer;
+}
+
+label:after {
+  content: "";
+  width: 30px; 
+  height: 30px; 
+  position: absolute;
+  top: 5px;
+  left: 5px; 
+  right: auto;
+  background: linear-gradient(180deg, #ffcc89, #d8860b);
+  border-radius: 50%;
+  box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+  transition: all 1s; 
+}
+
+input {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+input:checked + label:after {
+  left: auto;
+  right: 5px; 
+  transform: translateX(-30%);
+  background: linear-gradient(180deg, #777, #3a3a3a); 
+}
+
+label, label:after {
+  transition: 0.8s;
+}
+
+label:active:after { 
+  width: 150px; 
+}
+
+label svg {
+  position: absolute;
+  width: 60px; 
+  height: 20px; 
+  top: 10px; 
+  z-index: 100;
+}
+
+label svg.sun {
+  left: 60px;
+  opacity: 1;
+  transition: 0.8s;
+}
+
+label svg.moon {
+  right: 70px; 
+  fill: #f2e310;
+  transition: 0.8s;
+}
+
+input:checked + label svg.sun {
+  fill: #f2e310;
+}
+
+input:checked + label svg.moon {
+  fill: #ffffff;;
+}
+.dark-theme label:after {
+  background: linear-gradient(180deg, #ffcc89, #d8860b);
+  /* Adjust other properties as needed for dark mode */
+}

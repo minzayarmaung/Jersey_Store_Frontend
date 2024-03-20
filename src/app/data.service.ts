@@ -1,6 +1,6 @@
   import { Injectable } from '@angular/core';
   import { HttpClient, HttpStatusCode } from '@angular/common/http'
-  import { Observable } from 'rxjs';
+  import { BehaviorSubject, Observable } from 'rxjs';
   import { InvoiceData } from './components/invoice-data/invoicedata.module';
   import { ReactiveFormsModule } from '@angular/forms';
   import { StockData } from './components/stock-data/stockdata.module';
@@ -12,8 +12,11 @@
 
     private url = "http://localhost:8080/storesystem/store/";
 
-    constructor(private http: HttpClient) {
+    private darkModeSubject = new BehaviorSubject<boolean>(false);
+    isDarkMode$ = this.darkModeSubject.asObservable();
 
+    constructor(private http: HttpClient) {
+      this.darkModeSubject.next(this.isDarkModeEnabled());
     }
 
     // Getting Datas - Reading
@@ -125,4 +128,14 @@
       return this.http.put(`${this.url}images/imageUpdate/${invoiceId}`, formData, { responseType : 'blob'})
     }
 
-  } 
+    // Dark Mode Theme
+    isDarkMode = false;
+    toggleDarkMode(): void {
+      
+    }
+  
+    // Method to check if dark mode is enabled
+    isDarkModeEnabled(): boolean {
+      return false;
+    }
+  }

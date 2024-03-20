@@ -21,4 +21,11 @@
     padding-left: 20px; 
   }
 
+  /* styles.css */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+
   

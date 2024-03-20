@@ -265,4 +265,14 @@ changeItemsPerPage(event: any) {
   this.itemsPerPage = parseInt(value) || 5;
 }
 
+  // Dark Mode
+  darkModeButton():void {
+    this.service.toggleDarkMode();
+    if(this.service.isDarkMode){
+      this.renderer.addClass(document.body , 'dark-theme');
+    } else {
+      this.renderer.removeClass(document.body, 'dark-theme');
+    }
+  }
+
 }
