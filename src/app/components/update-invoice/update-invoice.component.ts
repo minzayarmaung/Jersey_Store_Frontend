@@ -96,7 +96,7 @@ export class UpdateInvoiceComponent implements OnInit {
       }
       
     });
-    
+
     if(this.service.isDarkMode){
       document.body.style.backgroundColor = '#000000';
     } else {
@@ -120,6 +120,7 @@ export class UpdateInvoiceComponent implements OnInit {
 
   // Deleting Stocks
   removeStock(index: number){
+    if(confirm("Are you sure you want save this Stock Data?")){
     const stock = this.stocks.at(index);
     // Checking If the Rows got Data or Not :3
     if(stock.get('stockId')?.value){
@@ -136,6 +137,7 @@ export class UpdateInvoiceComponent implements OnInit {
       console.log("Row with No Data Deleted Successfully....")
     }
   }
+}
 
   // Generatin PDF
   generatePDF(){
