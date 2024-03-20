@@ -130,12 +130,14 @@
 
     // Dark Mode Theme
     isDarkMode = false;
-    toggleDarkMode(): void {
-      
-    }
-  
-    // Method to check if dark mode is enabled
-    isDarkModeEnabled(): boolean {
-      return false;
-    }
+     // Toggle dark mode state
+  toggleDarkMode(): void {
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('darkMode', JSON.stringify(this.isDarkMode)); // Store state in local storage
   }
+
+  // Method to check if dark mode is enabled
+  isDarkModeEnabled(): boolean {
+    return this.isDarkMode;
+  }
+}

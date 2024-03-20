@@ -94,7 +94,14 @@ export class UpdateInvoiceComponent implements OnInit {
         }
         });
       }
+      
     });
+    
+    if(this.service.isDarkMode){
+      document.body.style.backgroundColor = '#000000';
+    } else {
+      document.body.style.backgroundColor = '';
+    }
 
     this.service.getImagePhoto(id).subscribe((ImageData: Blob) => {
       const blobUrl = URL.createObjectURL(ImageData);
@@ -103,6 +110,8 @@ export class UpdateInvoiceComponent implements OnInit {
       console.log(`Image with ID ${id} Not Found or Exist`)
     })
   }
+
+
   
 
   get stocks(): FormArray {

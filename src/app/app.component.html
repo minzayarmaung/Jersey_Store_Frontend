@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <input type="checkbox" id="darkmode-toggle" (click)="darkModeButton()"/>
+  <input type="checkbox" id="darkmode-toggle" (click)="darkModeButton() "  [checked]="isDarkModeEnabled()" />
   <label for="darkmode-toggle">
 
     <svg class="sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

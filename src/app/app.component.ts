@@ -14,19 +14,36 @@ import { DataService } from './data.service';
 })
 export class AppComponent {
 
-  darkModeButton(): void {
-    this.service.toggleDarkMode();
-  }
-
-
   title = 'store';
   
-  constructor( private dialog: MatDialog, private router: Router , private service : DataService , private renderer : Renderer2){}
+  constructor( private dialog: MatDialog, private router: Router , private service : DataService , private renderer : Renderer2 ,
+    ){}
 
+  ngOnInit(): void {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode) {
+        this.service.isDarkMode = JSON.parse(darkMode);
+      }
+      this.applyTheme();
+    }
+  darkModeButton(): void {
+    this.service.toggleDarkMode();
+    this.applyTheme();
+  }
+  isDarkModeEnabled(): boolean {
+    return this.service.isDarkMode;
+  }
+  
   isRouteActive(route: string): boolean {
     return this.router.url === route;
   }
 
-
+  private applyTheme(): void{
+    if(this.isDarkModeEnabled()){
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  }
   
 }

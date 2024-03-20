@@ -26,8 +26,11 @@
     color: #fff;
     font-size: 24px; 
   }
-  
-  html {
-    background-color: var(--background-color);
+  .dark-mode {
+    background-color: #000000; /* Set background color to black for dark mode */
+    color: #ffffff; /* Set text color to white for better contrast */
+    /* Add any other styles for dark mode here */
   }
+  
+
   
