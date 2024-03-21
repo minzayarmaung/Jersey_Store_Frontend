@@ -128,6 +128,11 @@
       return this.http.put(`${this.url}images/imageUpdate/${invoiceId}`, formData, { responseType : 'blob'})
     }
 
+    // Getting All InvoiceIds from the Database
+    invoiceIdsValidate(): Observable<number[]>{
+      return this.http.get<number[]>(`${this.url}invoice/getAllInvoiceIdsfromDatabase`);
+    }
+
     // Dark Mode Theme
     isDarkMode = false;
      // Toggle dark mode state

@@ -33,15 +33,19 @@
        <div class="row">
         <!-- Left text boxes -->
           <div class="col-md-6">
-  
-          <div class="mb-3">
-            <label for="textBox1" class="form-label">Invoice ID</label>
-            <input type="text" alt="Upload Profile Image" formControlName="invoiceId" class="form-control" id="textBox1" placeholder="Enter the Invoice ID.">
-            <div *ngIf="form.controls['invoiceId'].invalid && form.controls['invoiceId'].touched" class="text-danger">
-              Invoice Id is Required and Must be Number.
+            
+            <div class="mb-3">
+              <label for="textBox1" class="form-label">Invoice ID</label>
+              <input type="text" alt="Upload Profile Image" formControlName="invoiceId" class="form-control" id="textBox1" placeholder="Enter the Invoice ID.">
+              <div *ngIf="form.controls['invoiceId'].invalid && form.controls['invoiceId'].touched" class="text-danger">
+                Invoice ID already exists.
+              </div>
+              <div *ngIf="form.controls['invoiceId'].valid && form.controls['invoiceId'].touched" class="text-success">
+               Invoice ID is Okay ✔
+              </div>
             </div>
-          </div>          
-  
+            
+            
           <div class="mb-3">
             <label for="textBox2" class="form-label">Cashier Name</label>
             <input type="text" formControlName="cashierName" class="form-control" id="textBox2" placeholder="Enter Cashier Name." >

@@ -15,18 +15,6 @@ import { DatePipe } from '@angular/common';
 import { Time } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
-// Validation to Check
-function invoiceIDValidator(control: AbstractControl) : ValidationErrors | null{
-  const value = control.value;
-
-  if(isNaN(value)){
-    return { 'notANumber' : true};
-  }
-
-  return null;
-}
-
-
 interface Invoice {
   invoiceId: any;
   cashierName: string;
@@ -63,6 +51,8 @@ export class InvoiceComponent implements OnInit {
      private fb: FormBuilder , private renderer : Renderer2 , private el : ElementRef ,private dialog: MatDialog,
      private cdr: ChangeDetectorRef , private zone: NgZone , private sanitizer: DomSanitizer) { }
 
+     
+
     imageSrc = "https://t3.ftcdn.net/jpg/04/28/36/88/360_F_428368831_UVan10UgxCCnYgJgFMNoV2xGy7pO8utS.jpg";
     imageSelected : boolean = false;
     showEdit: boolean = false;
@@ -97,7 +87,7 @@ export class InvoiceComponent implements OnInit {
    data: any;
 
    form = new FormGroup({
-      invoiceId: new FormControl('', [Validators.required , invoiceIDValidator]),
+      invoiceId: new FormControl('', [Validators.required , this.invoiceIDValidator.bind(this)]),
       cashierName: new FormControl('', Validators.required),
       branch: new FormControl('', Validators.required),
       date: new FormControl('', Validators.required),
@@ -106,6 +96,7 @@ export class InvoiceComponent implements OnInit {
       status : new FormControl(''),
       profileImage : new FormControl('')
     });
+
 
     // Getting Available Stock Ids
     ngOnInit(): void {
@@ -275,4 +266,32 @@ changeItemsPerPage(event: any) {
     }
   }
 
+  // Validations
+  invoiceIDValidator(control: AbstractControl): Promise<ValidationErrors | null> {
+    const value = parseInt(control.value);
+    if (isNaN(value)) {
+      return Promise.resolve({ pattern: true });
+    }
+  
+    return this.service.invoiceIdsValidate().toPromise().then(invoiceIds => {
+      console.log("InvoiceIDs from DB:", invoiceIds);
+      const isValid = invoiceIds?.includes(value);
+      console.log("Already Exist:", isValid);
+  
+      if (isValid) {
+        // Invoice ID exists, set validity to false
+        control.setErrors({ invoiceIdExists: true });
+      } else {
+        // Invoice ID is unique, clear errors and set validity to true
+        control.setErrors(null);
+        control.markAsTouched(); // Mark the field as touched
+      }
+  
+      return null;
+    }).catch(error => {
+      console.error('Error while validating invoice ID:', error);
+      return { serverError: true };
+    });
+  }
+  
 }
