@@ -21,8 +21,6 @@ interface User {
   amount: number;
 }
 
-
-
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
@@ -101,13 +99,20 @@ export class ResultComponent implements OnInit {
 
   // Import Excel File to the Table
   ExcelData: any;
+  uploading: boolean = false;
+  uploadSuccess: boolean = false;
+  uploadError: boolean = false;
   
   importExcel(e : any){
     const file = e.target.files[0];
+    const confirmImport = window.confirm("Are you sure you want to import data from this file?");
+    if(confirmImport){
     this.uploadExcelData(file);
   }
+}
 
   uploadExcelData(file: File){
+    this.uploading = true;
     let formData = new FormData();
     formData.append('file', file);
   
@@ -115,10 +120,16 @@ export class ResultComponent implements OnInit {
     .subscribe(
       (Response) => {
         console.log("Excel Data Uploaded Successfully: ", Response);
+        this.uploading = false;
+        this.uploadSuccess = true;
+        alert("Success Importing Excel Data ✔ .")     
       },  
       (Error) => {
         console.error("Error Uploading Excel Data : " , Error);
-      }
+        this.uploading = false;
+        this.uploadError = true;
+        alert("Failed Importing Excel Data ❌ . Please check your Excel File. ")
+      } 
     )
   }
   
@@ -142,7 +153,6 @@ updateInvoiceId(id: number) {
     })
     
   }
-
 
   // Pagination
   p:number = 1;
