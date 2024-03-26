@@ -1,5 +1,5 @@
   import { Injectable } from '@angular/core';
-  import { HttpClient, HttpStatusCode } from '@angular/common/http'
+  import { HttpClient, HttpParams, HttpStatusCode } from '@angular/common/http'
   import { BehaviorSubject, Observable } from 'rxjs';
   import { InvoiceData } from './components/invoice-data/invoicedata.module';
   import { ReactiveFormsModule } from '@angular/forms';
@@ -131,6 +131,16 @@
     // Getting All InvoiceIds from the Database
     invoiceIdsValidate(): Observable<number[]>{
       return this.http.get<number[]>(`${this.url}invoice/getAllInvoiceIdsfromDatabase`);
+    }
+
+    // Pagination Control
+    paginationControl(page: number , limit: number , searchValue: string): Observable<any> {
+      const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit' , limit.toString())
+      .set('search' , searchValue)
+
+      return this.http.get<any>(`${this.url}table/findWithPager`, { params });
     }
 
     // Dark Mode Theme

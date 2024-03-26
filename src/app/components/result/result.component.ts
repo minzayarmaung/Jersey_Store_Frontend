@@ -2,14 +2,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/data.service';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClientModule, HttpClient, HttpParams } from '@angular/common/http';
 import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
-import { catchError, forkJoin, map, of, tap } from 'rxjs';
 
 interface User {
-  id: number;
+  invoiceId: number;
   stockId?: number;
   cashierName: string;
   stockName: string;
@@ -20,6 +17,23 @@ interface User {
   status: string;
   amount: number;
 }
+interface InvoiceAndStockDataResponse{
+  invoiceId: number;
+  cashierName: string;
+  date: string;
+  time: string;
+  branch: string;
+  center: string;
+  stockId: number;
+  name: string;
+  amount: number;
+}
+
+interface PaginationResponse{
+  items : InvoiceAndStockDataResponse[];
+  totalCount : number;
+  totalPages : number ;
+}
 
 @Component({
   selector: 'app-result',
@@ -28,6 +42,9 @@ interface User {
 })
 export class ResultComponent implements OnInit {
   users: User[] | undefined;
+  totalCount: number = 0;
+  totalPages: number = 0;
+  data : InvoiceAndStockDataResponse[] = [];
   url: string = "http://localhost:8080/";
 
   constructor(private service: DataService, private router: Router , private http: HttpClient ) {}
@@ -77,6 +94,8 @@ export class ResultComponent implements OnInit {
         console.error('dataArray is not an array:', dataArray);
       }
     });
+
+    this.loadData();
   }
 
   // Excel Export Function Start
@@ -85,9 +104,19 @@ export class ResultComponent implements OnInit {
   fileName = "ExportExcelSheetFile.xlsx";
 
   // Export to Excel File
-  exportExcel(){
+  exportExcel(page: number = 0, limit: number = 100, searchValue: string = this.search): void{
+    let params = new HttpParams()
+    .set('page', page.toString())
+    .set('limit' , limit.toString())
+    .set('search' , searchValue);
 
-    this.http.get('http://localhost:8080/storesystem/store/excel/exportFile' , {responseType : 'blob'})
+    console.log(`Exporting with parameters - Page: ${page}, Limit: ${limit}, SearchValue: '${searchValue}'`);
+
+    let url = 'http://localhost:8080/storesystem/store/excel/exportFile';
+
+    this.http.get(`${url}?${params.toString()}`, {
+        responseType : 'blob'
+    })
     .subscribe((data:Blob) => {
       FileSaver.saveAs(data , 'ExportData.xlsx');
     });
@@ -155,7 +184,34 @@ updateInvoiceId(id: number) {
   }
 
   // Pagination
-  p:number = 1;
+  loadData(){
+    const page = this.pageNo;
+    const limit = this.itemsPerPage;
+    const searchValue = this.search;
+
+    console.log('Loding data for Page :' , page , 'and limit: ' , limit);
+
+    this.service.paginationControl(page , limit , searchValue).subscribe(
+      (response : PaginationResponse) => {
+        console.log("Response From API : " , response);
+        this.data = response.items;
+        this.totalRows= response.totalCount;
+      },
+      (error) => {
+        console.error("Error Changing Another Page and Getting Data From the Backend" , error);
+      }
+    );
+  }
+
+  // Check Page Changes
+  logChanges(event: any){
+    console.log('Page changed to:', event);
+    this.pageNo = event;
+    this.loadData();
+  }
+
+  // Pagination
+  pageNo:number = 1;
   itemsPerPage:number = 5 
   totalRows:any;
 
@@ -163,8 +219,22 @@ updateInvoiceId(id: number) {
     const target = event.target as HTMLSelectElement;
     const value = target.value;
     this.itemsPerPage = parseInt(value) || 5;
+    this.loadData();
+  }
+
+  // Search Data 
+  searchData(){
+    this.service.paginationControl(0 , 5  , this.search).subscribe(data => {
+      console.log("Searching Data : " , data);
+      if(data && data.items){
+        this.data = data.items;
+        this.totalCount = data.totalCount;
+        this.totalPages = data.totalPages
+      }
+    },error => {
+      console.log("Error Searching Data :" , error);
+    });
   }
   
-
-  filterChange: string = ""; // Responsible for Searching Data and Filtering Data
+  search : string = ""; // Responsible for Searching Data and Filtering Data
 }

@@ -11,24 +11,16 @@
 
     <h1 class="text-center"> Invoice List </h1>
 
-    <!--- Search Function -->
-    <div class="buttons container" style="display: flex; justify-content:baseline">
-
-        
-        
-    </div>
-
-    <!-- Result Table -->
-
 <br>
 <div class="container-fluid" >
 
-        <div class="input-group">
-          <input type="search" id="searchBar" class="form-control narrow-search" placeholder="Type here to Search"[(ngModel)]="filterChange"
-          aria-label="Search" aria-describedby="search-addon" style="max-width: 20%" />
-          
-          <button type="button" class="btn btn-outline-primary me-2" data-mdb-ripple-init>search</button>
 
+      <div class="input-group">
+        <input type="search" id="searchBar" class="form-control narrow-search" placeholder="Type here to Search"
+              [(ngModel)]="search" name="search" aria-label="Search" aria-describedby="search-addon"
+              style="max-width: 20%" />
+      
+        <button type="button" class="btn btn-outline-primary me-2" (click)="searchData()">Search</button>
           <!-- Buttons -->
 
       <input type="file" id="excelFile" style="display: none;" (change)="importExcel($event)">
@@ -60,7 +52,7 @@
 
         <tbody>
         <!-- Getting the Datas from the API From the Backend -->
-        <tr *ngFor="let data of users | filterpipe: filterChange | paginate : {itemsPerPage: itemsPerPage , currentPage: p }">
+        <tr *ngFor="let data of users | filterpipe: search | paginate : {itemsPerPage: itemsPerPage , currentPage: pageNo }">
           
           <td class="text-end">{{ data.invoiceId}}</td>       
           <td class="text-end">{{ data.cashierName }}</td>         
@@ -92,15 +84,12 @@
 
 <!-- Data Pagination -->
 <div class="container d-flex justify-content-center mt-8">
-
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <pagination-controls [(ngModel)] = "pageNo" (pageChange)="logChanges($event)" ngDefaultControl></pagination-controls>
 
   <select class="form-select me-5 custom-select smaller-select" (change)="changeItemsPerPage($event)">
     <option *ngFor="let option of [5, 10, 15, 20]">{{ option }}</option>
   </select>
-
 </div>
-
 <!-- End Data Pagination -->
 
 
