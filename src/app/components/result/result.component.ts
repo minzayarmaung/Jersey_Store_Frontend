@@ -99,7 +99,6 @@ export class ResultComponent implements OnInit {
   }
 
   // Excel Export Function Start
-
   /* Default Name for Excel file when Download */
   fileName = "ExportExcelSheetFile.xlsx";
 
@@ -120,8 +119,6 @@ export class ResultComponent implements OnInit {
     .subscribe((data:Blob) => {
       FileSaver.saveAs(data , 'ExportData.xlsx');
     });
-
-
   }
    // Excel Export Function End // 
 
